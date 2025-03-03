@@ -1,4 +1,4 @@
-# Echo Chat
+# Dermaq
 
 A web application that allows users to log in, do chat.
 
@@ -17,12 +17,16 @@ A web application that allows users to log in, do chat.
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/Yashgupta9330/Echo_chat_frontend
-cd Echo_chat_frontend
+git clone https://github.com/Yashgupta9330/dermaq
+cd dermaq
 ```
 2. Install  dependencies:
 ```bash
 npm install
+```
+3. create .env.local:
+```bash
+VITE_OPENWEATHER_API_KEY=your_openweather_api_key_here
 ```
 
 ### Running the Application
