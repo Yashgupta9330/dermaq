@@ -1,6 +1,7 @@
 import React from 'react';
 import { Sun, Thermometer, CloudRain, Wind } from 'lucide-react';
 import { ForecastData } from '@/lib/types';
+import { getlast5days } from '@/lib/data';
 
 
 interface ForecastListProps {
@@ -8,6 +9,7 @@ interface ForecastListProps {
 }
 
 const ForecastList: React.FC<ForecastListProps> = ({ forecastData }) => {
+  const last5Days=getlast5days(forecastData);
   if (!forecastData) {
     return (
       <div className="space-y-3">
@@ -25,23 +27,6 @@ const ForecastList: React.FC<ForecastListProps> = ({ forecastData }) => {
       </div>
     );
   }
-
-  // Filter the forecast data to get unique days and last 5 days
-  const uniqueDays = new Map();
-  forecastData.list.forEach((forecast: any) => {
-    const date = new Date(forecast.dt * 1000).toLocaleDateString('en-US', {
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric'
-    });
-    if (!uniqueDays.has(date)) {
-      uniqueDays.set(date, forecast);
-    }
-  });
-
-  // Get the last 5 days
-  const last5Days = Array.from(uniqueDays.values()).slice(0, 5);
-
   return (
     <div className="space-y-3">
       {last5Days.map((forecast: any, index: number) => {

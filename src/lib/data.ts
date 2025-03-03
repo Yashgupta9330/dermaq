@@ -121,10 +121,8 @@ export const forecastDateRanges: ForecastDateRange[] = [
 // Generate chart data from forecast data
 export const generateForecastChartData = (data: ForecastData) => {
   return data.list.map((item) => {
-    // Use actual temperature values
+
     const thisMonthTemp = item.main.temp;
-    
-    // Create some variation for last month data (feels_like or a calculated value)
     const lastMonthTemp = item.main.feels_like || (thisMonthTemp - 1 - Math.random() * 2);
     
     return {
@@ -134,3 +132,20 @@ export const generateForecastChartData = (data: ForecastData) => {
     };
   });
 };
+
+
+export function getlast5days(forecastData:ForecastData){
+   const uniqueDays = new Map();
+   forecastData?.list.forEach((forecast: any) => {
+     const date = new Date(forecast.dt * 1000).toLocaleDateString('en-US', {
+       month: 'short',
+       day: 'numeric',
+       year: 'numeric'
+     });
+     if (!uniqueDays.has(date)) {
+       uniqueDays.set(date, forecast);
+     }
+   });
+   const last5Days = Array.from(uniqueDays.values()).slice(0, 5);
+   return last5Days;
+}
