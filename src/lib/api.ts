@@ -2,7 +2,11 @@ import { ForecastData, WeatherData } from "./types";
 
 const KOLKATA_LAT = 22.5726;
 const KOLKATA_LON = 88.3639;
-const OPENWEATHER_API_KEY = '3f92114c01a3d0f4c9962e0f1004278a';
+const OPENWEATHER_API_KEY = import.meta.env.VITE_OPENWEATHER_API_KEY;
+
+if (!OPENWEATHER_API_KEY) {
+  throw new Error('Missing OpenWeather API key');
+}
 
 export const fetchWeatherData = async (): Promise<WeatherData> => {
   const response = await fetch(
