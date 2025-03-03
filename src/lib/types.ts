@@ -44,15 +44,10 @@ export interface WeatherData {
     }[];
   }
 
-
-   export interface ForecastChartData {
+  export interface ForecastChartData {
     date: Date;
     thisMonth: number;
     lastMonth: number;
   }
   
-  export interface ForecastDateRange {
-    id: string;
-    label: string;
-    data: ForecastData;
-  }
+  
