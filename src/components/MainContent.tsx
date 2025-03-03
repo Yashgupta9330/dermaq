@@ -1,12 +1,10 @@
 import React from 'react';
-
 import { Calendar, ChevronDown } from 'lucide-react';
 import WeatherCards from '@/components/WeatherCard';
 import WeatherChart from '@/components/WeatherChart';
 import ForecastList from '@/components/ForeCastList';
 import { WeatherData } from '@/lib/types';
 import { ScrollArea } from './ui/scroll-area';
-
 
 interface MainContentProps {
   weatherData: WeatherData | null;
@@ -19,22 +17,25 @@ interface MainContentProps {
 
 export const MainContent: React.FC<MainContentProps> = ({
   weatherData,
-  forecastData
+  forecastData,
 }) => {
   const currentDate = new Date().toLocaleDateString('en-US', {
     day: 'numeric',
     month: 'short',
-    year: 'numeric'
+    year: 'numeric',
   });
 
   return (
-    <ScrollArea className="flex-1 flex flex-col">
-      <header className="hidden md:block p-8 border-b border-gray-100">
+    <ScrollArea className="flex-1 flex flex-col w-full">
+      {/* Desktop/Tablet Header - Visible on md screens and above */}
+      <header className="hidden md:block w-full p-4 md:p-6 lg:p-8 border-b border-gray-100">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold">Hello, Margaret</h1>
+            <h1 className="text-xl md:text-2xl font-bold">Hello, Margaret</h1>
             <p className="text-gray-500">
-              Track weather data here. {weatherData ? `Currently ${weatherData.weather[0].description} in ${weatherData.name}` : ''}
+              {weatherData
+                ? `Currently ${weatherData.weather[0].description} in ${weatherData.name}`
+                : ''}
             </p>
           </div>
           <div className="flex items-center gap-2">
@@ -46,11 +47,13 @@ export const MainContent: React.FC<MainContentProps> = ({
         </div>
       </header>
 
-      {/* Mobile Header Content */}
-      <div className="md:hidden px-4 py-3">
+      {/* Mobile Header - Visible only on small screens */}
+      <div className="md:hidden px-4 py-3 w-full">
         <h1 className="text-xl font-bold">Hello, Margaret</h1>
         <p className="text-sm text-gray-500">
-          {weatherData ? `Currently ${weatherData.weather[0].description} in ${weatherData.name}` : 'Loading weather data...'}
+          {weatherData
+            ? `Currently ${weatherData.weather[0].description} in ${weatherData.name}`
+            : 'Loading weather data...'}
         </p>
         <div className="flex items-center gap-2 mt-2">
           <span className="text-sm text-gray-600">{currentDate}</span>
@@ -60,29 +63,27 @@ export const MainContent: React.FC<MainContentProps> = ({
         </div>
       </div>
 
-      {/* Changed from overflow-auto to overflow-visible */}
-      <div className="flex-1 overflow-visible">
-        <div className="p-4 md:p-6">
+      <div className="flex-1 w-full">
+        <div className="p-4 sm:p-4 md:p-6">
           {/* Stats Cards */}
           <WeatherCards weatherData={weatherData} />
 
           {/* Chart */}
-          <WeatherChart  forecastData={forecastData} />
+          <WeatherChart forecastData={forecastData} />
 
           {/* Forecast List */}
           <div className="flex items-center justify-between mb-4 mt-4">
-                <h2 className="text-xl font-bold">Forecast Data</h2>
-                <div className="flex items-center gap-4">
-                  <button className="flex items-center px-3 py-1 text-sm bg-gray-100 rounded-md">
-                    <span>Week</span>
-                    <ChevronDown className="w-4 h-4 ml-1" />
-                  </button>
-                </div>
-              </div>
-            <ForecastList forecastData={forecastData} />
+            <h2 className="text-xl font-bold">Forecast Data</h2>
+            <div className="flex items-center gap-4">
+              <button className="flex items-center px-3 py-1 text-sm bg-gray-100 rounded-md">
+                <span>Week</span>
+                <ChevronDown className="w-4 h-4 ml-1" />
+              </button>
+            </div>
+          </div>
+          <ForecastList forecastData={forecastData} />
         </div>
-        </div>
-        </ScrollArea>
-    )
-}
-      
+      </div>
+    </ScrollArea>
+  );
+};

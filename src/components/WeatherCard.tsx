@@ -10,7 +10,7 @@ interface WeatherCardsProps {
 const WeatherCards: React.FC<WeatherCardsProps> = ({ weatherData }) => {
   if (!weatherData) {
     return (
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
         {[...Array(4)].map((_, index) => (
           <div key={index} className="flex items-center p-4 bg-white border border-gray-100 rounded-xl">
             <div className="animate-pulse flex space-x-4 w-full">
@@ -27,7 +27,7 @@ const WeatherCards: React.FC<WeatherCardsProps> = ({ weatherData }) => {
   }
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
       <div className="flex items-center p-4 bg-white border border-gray-100 rounded-xl">
         <div className="flex items-center justify-center w-10 h-10 mr-4 rounded-full">
           <div className="w-8 h-8">

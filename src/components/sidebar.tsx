@@ -12,7 +12,7 @@ const Sidebar: React.FC<SidebarProps> = ({ mobileMenuOpen, setMobileMenuOpen }) 
   return (
     <>
       {/* Mobile Menu Header */}
-      <div className="md:hidden flex items-center justify-between p-4 border-b border-gray-100">
+      <div className="lg:hidden flex items-center justify-between p-4 border-b border-gray-100">
         <div className="flex items-center gap-2">
           <div className="flex">
             <div className="w-6 h-6">
@@ -42,7 +42,7 @@ const Sidebar: React.FC<SidebarProps> = ({ mobileMenuOpen, setMobileMenuOpen }) 
       {/* Mobile Overlay */}
       {mobileMenuOpen && (
         <div
-          className="md:hidden fixed inset-0 bg-black bg-opacity-50 z-40"
+          className="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-40"
           onClick={() => setMobileMenuOpen(false)}
         />
       )}
@@ -50,7 +50,7 @@ const Sidebar: React.FC<SidebarProps> = ({ mobileMenuOpen, setMobileMenuOpen }) 
       {/* Sidebar */}
       <div
         className={`${mobileMenuOpen ? 'translate-x-0' : '-translate-x-full'} 
-        md:translate-x-0 transition-transform duration-300 fixed md:static 
+        lg:translate-x-0 transition-transform duration-300 fixed lg:static 
         top-0 left-0 h-full z-50 w-[206px] bg-white border-r border-gray-100 flex flex-col`}
       >
         <div className="p-5">

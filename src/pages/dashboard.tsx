@@ -29,7 +29,7 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <div className="flex flex-col md:flex-row h-screen bg-white">
+    <div className="flex flex-col lg:flex-row h-screen bg-white">
       <Sidebar
         mobileMenuOpen={mobileMenuOpen}
         setMobileMenuOpen={setMobileMenuOpen}

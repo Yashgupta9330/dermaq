@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from 'react';
-import axios from 'axios';
 import { 
   LineChart, 
   Line, 
@@ -13,22 +12,25 @@ import {
 } from 'recharts';
 import { format } from 'date-fns';
 import { ChevronDown } from 'lucide-react';
-
-import { dateRanges, ForecastData } from '@/lib/types';
 import CustomTooltip from './CustomTooltip';
+import { generateForecastChartData, forecastDateRanges } from '../lib/data';
+import { ForecastData } from '@/lib/types';
+
 
 interface ForecastListProps {
   forecastData: ForecastData;
 }
 
-const WeatherChart: React.FC<ForecastListProps> = ({ forecastData }) => {
-  const [selectedRange, setSelectedRange] = useState(dateRanges[0]);
-  const [chartData, setChartData] = useState<any>([]);
+const ForecastChart: React.FC<ForecastListProps> = ({ forecastData }) => {
+  const [selectedRange, setSelectedRange] = useState(forecastDateRanges[0]);
+  const [chartData, setChartData] = useState(generateForecastChartData(selectedRange.data));
   const [activeTooltipIndex, setActiveTooltipIndex] = useState<number | null>(2); 
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  
+  useEffect(() => {
+    setChartData(generateForecastChartData(selectedRange.data));
+  }, [selectedRange]);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -66,18 +68,18 @@ const WeatherChart: React.FC<ForecastListProps> = ({ forecastData }) => {
 
   // Format the x-axis ticks
   const formatXAxis = (tickItem: any) => {
-    return format(new Date(tickItem), 'dd');
+    return format(new Date(tickItem), 'HH:mm');
   };
 
   // Format the y-axis ticks
   const formatYAxis = (tickItem: number) => {
-    return `${tickItem}h`;
+    return `${tickItem}°C`;
   };
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-sm">
       <div className="flex justify-between items-center mb-8">
-        <h1 className="text-2xl font-bold text-gray-900">Performance</h1>
+        <h1 className="text-2xl font-bold text-gray-900">Temperature Forecast</h1>
         <div className="relative" ref={dropdownRef}>
           <button 
             className="bg-gray-100 text-gray-700 px-4 py-2 rounded-full flex items-center"
@@ -89,7 +91,7 @@ const WeatherChart: React.FC<ForecastListProps> = ({ forecastData }) => {
           {dropdownOpen && (
             <div className="absolute right-0 mt-2 w-40 bg-white rounded-md shadow-lg z-10 border border-gray-200">
               <ul className="py-1">
-                {dateRanges.map((range) => (
+                {forecastDateRanges.map((range) => (
                   <li key={range.id}>
                     <button
                       className={`block w-full text-left px-4 py-2 text-sm ${
@@ -137,8 +139,8 @@ const WeatherChart: React.FC<ForecastListProps> = ({ forecastData }) => {
             />
             <YAxis 
               tickFormatter={formatYAxis} 
-              domain={[0, 12]} 
-              ticks={[0, 2, 4, 6, 8, 10, 12]} 
+              domain={[15, 40]} 
+              ticks={[15, 20, 25, 30, 35, 40]} 
               axisLine={false}
               tickLine={false}
               tick={{ fill: '#9CA3AF' }}
@@ -147,9 +149,11 @@ const WeatherChart: React.FC<ForecastListProps> = ({ forecastData }) => {
               content={<CustomTooltip />} 
               cursor={false}
             />
-            {activeTooltipIndex !== null && (
+            {activeTooltipIndex !== null && chartData[activeTooltipIndex] && (
               <ReferenceLine 
-                x={chartData[activeTooltipIndex]?.date} 
+                x={chartData[activeTooltipIndex].date instanceof Date 
+                  ? chartData[activeTooltipIndex].date.toISOString() 
+                  : chartData[activeTooltipIndex].date} 
                 stroke="#E5E7EB" 
                 strokeDasharray="3 3" 
               />
@@ -183,4 +187,4 @@ const WeatherChart: React.FC<ForecastListProps> = ({ forecastData }) => {
   );
 };
 
-export default WeatherChart;
+export default ForecastChart;
